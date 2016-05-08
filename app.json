@@ -1,0 +1,8 @@
+{
+  "name": "Bart Pace",
+  "description": "An app for watching Bart trains",
+  "repository": "",
+  "logo": "",
+  "keywords": [],
+  "image": "heroku/nodejs"
+}
