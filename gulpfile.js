@@ -34,6 +34,7 @@ gulp.task(`build`, [
   `build-server`,
   `build-server-files`,
   `build-react-client`,
+  `build-react-server`,
 ]);
 
 gulp.task(`build-scss`, () => {
@@ -61,7 +62,7 @@ gulp.task(`build-server-files`, () => {
 gulp.task(`watch`, [`build`], () => {
   gulp.watch([src.server], [`build-server`]);
   gulp.watch([src.scssWatch], [`build-scss`]);
-  gulp.watch([src.reactServer], [`build-react-client`]);
+  gulp.watch([src.reactServer], [`build-react-client`, `build-react-server`]);
 });
 
 gulp.task(`build-server`, () => {
@@ -128,6 +129,19 @@ gulp.task('build-react-client', function() {
       },
     }))
     .pipe(gulp.dest('dist/client'));
+});
+
+gulp.task(`build-react-server`, () => {
+  return gulp.src(src.reactServer)
+  .pipe(sourcemaps.init())
+  .pipe(
+    babel({
+      presets: [`es2015-node5`, `stage-3`, `react`],
+      plugins: [`transform-async-to-generator`],
+    })
+  )
+  .pipe(sourcemaps.write(`.`))
+  .pipe(gulp.dest(dest.reactServer));
 });
 
 gulp.task(`run-tests`, [`default`], () => {

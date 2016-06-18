@@ -8,11 +8,15 @@ export default class Bart extends React.Component {
     this.state = {
       stations: [],
     };
-    this.socket = io();
-    this.socket.on('update', (data) => {
-      console.log('look at this sweet data', data);
-      this.setState({ stations: data });
-    });
+    try {
+      this.socket = io();
+      this.socket.on('update', (data) => {
+        console.log('look at this sweet data', data);
+        this.setState({ stations: data });
+      });
+    } catch (ex) {
+      // This should fail on server side
+    }
   }
   componentWillMount() {
     // console.log('componentWillMount');
